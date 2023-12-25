@@ -1,0 +1,41 @@
+from matplotlib import pyplot as plt
+from matplotlib import image as mpimg
+import cv2
+import numpy as np
+import random
+
+
+################### Function to import training data with correct labels ###############################
+def load_train_data(num , num_sam , X_train = []):
+    while num <= num_sam:
+        #num_str = str(num)
+        
+        jpb_file = 'catvdog_data/cats/{num_str}.jpg'
+        #print(jpb_file.format(num_str = num))
+        image = mpimg.imread(jpb_file.format(num_str = num))
+        image = cv2.resize(image, (64,64), interpolation = cv2.INTER_AREA)
+        X_train.append([[0], image])  # cat is 0, dog is 1
+        num += 1
+    num = 0
+    while num <= num_sam:
+        #num_str = str(num)
+        
+        jpb_file = 'catvdog_data/dogs/{num_str}.jpg'
+        #print(jpb_file.format(num_str = num))
+        image = mpimg.imread(jpb_file.format(num_str = num))
+        image = cv2.resize(image, (64,64), interpolation = cv2.INTER_AREA)
+        X_train.append([[1], image])  # cat is 0, dog is 1
+        num += 1
+    return X_train
+########################################################################################################
+
+X_train = load_train_data( 0, 10)   # Load data to a variable
+
+################### Checking each sample for correct label #############################################
+sample_num  = 3
+plt.imshow(X_train[sample_num][1])   # first [] selecting which samples, second [] of 0 or 1 is 0 is label and 1 is image array
+plt.show()
+print(X_train[sample_num][0])
+
+############################################# Shuffle data #############################################
+random.shuffle(X_train)
